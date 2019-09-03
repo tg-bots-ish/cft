@@ -28,7 +28,7 @@ def monitoring():
     know = 0
     while True:
         print("I`m working")
-        if(time.strftime("%m", time.time(gmtime.time()) == '0'):
+        if time.strftime("%m", time.time(gmtime.time())) == '0':
             print("I`m working")
         contests = contests_list(False)
         contests_before = list(filter(lambda x: x['phase'] == 'BEFORE', contests))
