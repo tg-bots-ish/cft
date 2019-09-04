@@ -16,12 +16,12 @@ def fail(msg):
     bot.send_message(CHAT_ID, 'Error:' + str(msg))
 
 def get_round_statistics(x):
-    send_msg(x['contestName'] + ', Place ' + str(x['rank']) + ', ' + str(x['oldRating']) + ' -> ' + str(x['newRating']))
+    send_msg('```\n' + x['contestName'] + ', Place ' + str(x['rank']) + ', ' + str(x['oldRating']) + ' -> ' + str(x['newRating']) + '\n```')
 
 
 def get_round_notification(x):
     time_before = x['relativeTimeSeconds']
-    send_msg(x['name'] + " " + str(time_before_round(time_before)))
+    send_msg('```\n' + x['name'] + " " + str(time_before_round(time_before)) + '\n```')
 
 
 def monitoring():
