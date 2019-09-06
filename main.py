@@ -8,20 +8,27 @@ bot = telebot.TeleBot(TOKEN)
 CHAT_ID = 377412691
 
 
+def to_normal_time(t):
+    return time.ctime(t + time.time())
+
+
 def send_msg(msg):
-    bot.send_message(CHAT_ID, msg)
+    bot.send_message(CHAT_ID, msg, parse_mode='Markdown')
 
 
 def fail(msg):
-    bot.send_message(CHAT_ID, 'Error:' + str(msg))
+    bot.send_message(CHAT_ID, '*Error:* _' + str(msg) + '_')
+
 
 def get_round_statistics(x):
-    send_msg('`' + x['contestName'] + ', Place ' + str(x['rank']) + ', ' + str(x['oldRating']) + ' -> ' + str(x['newRating']) + '`')
+    send_msg("*{name}*\nThe Round is Over\nYour place: *{place}*\nRating change: ```{old} -> {new}```".format(
+        name=x['name'], place=x['rank'], old=x['oldRating'], new=['newRating']))
 
 
 def get_round_notification(x):
-    time_before = x['relativeTimeSeconds']
-    send_msg('`' + x['name'] + " " + str(time_before_round(time_before)) + '`')
+    time_before = abs(int(x['relativeTimeSeconds']))
+    send_msg("*{name}*\nThe Round begin at ```{time}```\n_Don't forget_".format(name=x['name'],
+                                                                                time=to_normal_time(time_before)))
 
 
 def monitoring():
@@ -42,6 +49,7 @@ def monitoring():
         know = len(rating)
         time.sleep(0.2)
 
+
 def contests_list(gym):
     c = requests.get('http://codeforces.com/api/contest.list?gym=' + str(gym).lower())
     contests_data = json.loads(c.text)
@@ -56,6 +64,7 @@ def user_rating(handle):
     if rating_data['status'] == 'FAILED':
         fail("Too many requests")
     return rating_data['result']
+
 
 def time_before_round(t):
     t = min(0, t)
@@ -80,3 +89,4 @@ def need_post(t):
 
 
 monitoring()
+
