@@ -21,7 +21,6 @@ def fail(msg):
 
 
 def get_round_statistics(x):
-    print(x['oldRating'])
     send_msg("*{name}*\nThe Round is Over\nYour place: *{place}*\nRating change: `{oldRating} -> {new}`".format(
         name=x['contestName'], place=x['rank'], oldRating=x['oldRating'], new=x['newRating']))
 
