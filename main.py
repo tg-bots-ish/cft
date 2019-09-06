@@ -22,7 +22,7 @@ def fail(msg):
 
 def get_round_statistics(x):
     send_msg("*{name}*\nThe Round is Over\nYour place: *{place}*\nRating change: ```{old} -> {new}```".format(
-        name=x['name'], place=x['rank'], old=x['oldRating'], new=x['newRating']))
+        name=x['contestName'], place=x['rank'], old=x['oldRating'], new=x['newRating']))
 
 
 def get_round_notification(x):
