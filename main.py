@@ -22,14 +22,14 @@ def fail(msg):
 
 def get_round_statistics(x):
     print(x['oldRating'])
-    send_msg("*{name}*\nThe Round is Over\nYour place: *{place}*\nRating change: ```{oldRating} -> {new}```".format(
+    send_msg("*{name}*\nThe Round is Over\nYour place: *{place}*\nRating change: `{oldRating} -> {new}`".format(
         name=x['contestName'], place=x['rank'], oldRating=x['oldRating'], new=x['newRating']))
 
 
 def get_round_notification(x):
     time_before = abs(int(x['relativeTimeSeconds']))
-    send_msg("*{name}*\nThe Round begin at ```{time}```\n_Don't forget_".format(name=x['name'],
-                                                                                time=to_normal_time(time_before)))
+    send_msg("*{name}*\nThe Round begin at ```" + '{time}'.format(
+        time=to_normal_time(time_before)) + "```\n_Don't forget_".format(name=x['name']))
 
 
 def monitoring():
