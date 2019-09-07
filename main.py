@@ -21,6 +21,7 @@ def fail(msg):
 
 
 def get_round_statistics(x):
+    print(x['oldRating'])
     send_msg("*{name}*\nThe Round is Over\nYour place: *{place}*\nRating change: `{oldRating} -> {new}`".format(
         name=x['contestName'], place=x['rank'], oldRating=x['oldRating'], new=x['newRating']))
 
@@ -28,14 +29,12 @@ def get_round_statistics(x):
 def get_round_notification(x):
     time_before = abs(int(x['relativeTimeSeconds']))
     send_msg("*{name}*\nThe Round begin at ```" + '{time}'.format(
-        time=to_normal_time(time_before)) + "```\n_Don't forget_".format(name=x['name']))
+        time=to_normal_time(time_before), name=x['name']) + "```\n_Don't forget_")
 
 
 def monitoring():
     know = 0
     while True:
-        if time.strftime("%m", time.gmtime(time.time())) == '0':
-            print("I`m working")
         contests = contests_list(False)
         contests_before = list(filter(lambda x: x['phase'] == 'BEFORE', contests))
         contest_is_running = any(map(lambda x: x['phase'] == 'CODING' and x['type'] == 'CF', contests))
@@ -47,7 +46,7 @@ def monitoring():
         for i in range(know, len(rating)):
             get_round_statistics(rating[i])
         know = len(rating)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
 
 def contests_list(gym):
@@ -84,7 +83,8 @@ def need_post(t):
     if now[0] > 0:
         return (now[0], 0, 0, 0) == now
     times_need = [(1, 0, 0, 0), (0, 8, 0, 0), (0, 6, 0, 0), (0, 3, 0, 0), (0, 2, 0, 0), (0, 1, 0, 0), (0, 0, 30, 0),
-                  (0, 0, 20, 0), (0, 0, 10, 0), (0, 0, 5, 0), (0, 0, 2, 0), (0, 0, 1, 0), (0, 0, 0, 30), (0, 0, 0, 10)]
+                  (0, 0, 20, 0), (0, 0, 10, 0), (0, 0, 5, 0), (0, 0, 2, 0), (0, 0, 1, 0), (0, 0, 0, 30),
+                  (0, 0, 0, 10)]
     return t in times_need
 
 
