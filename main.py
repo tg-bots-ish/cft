@@ -17,7 +17,7 @@ def send_msg(msg):
 
 
 def fail(msg):
-    bot.send_message(CHAT_ID, '*Error:* _' + str(msg) + '_')
+    bot.send_message(CHAT_ID, '*Error:* _' + str(msg) + '_', parse_mode='Markdown')
 
 
 def get_round_statistics(x):
@@ -28,12 +28,12 @@ def get_round_statistics(x):
 
 def get_round_notification(x):
     time_before = abs(int(x['relativeTimeSeconds']))
-    send_msg("*{name}*\nThe Round begin at ```" + '{time}'.format(
-        time=to_normal_time(time_before), name=x['name']) + "```\n_Don't forget_")
+    send_msg("*{name}*\nThe Round begin at ```" + '{time}'.format(name=x['name'],
+                                                                  time=to_normal_time(
+                                                                      time_before)) + "```\n_Don't forget_")
 
 
 def monitoring():
-    know = 0
     while True:
         contests = contests_list(False)
         contests_before = list(filter(lambda x: x['phase'] == 'BEFORE', contests))
@@ -43,9 +43,7 @@ def monitoring():
             if not contest_is_running and need_post(time_before):
                 get_round_notification(i)
         rating = user_rating('CodeWeakness')
-        for i in range(know, len(rating)):
-            get_round_statistics(rating[i])
-        know = len(rating)
+        get_round_statistics(rating.last())
         time.sleep(0.1)
 
 
